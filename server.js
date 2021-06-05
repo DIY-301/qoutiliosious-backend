@@ -4,12 +4,14 @@ const express = require('express');
 const cors = require('cors');
 //const mongoose = require('mongoose');
 require('dotenv').config();
-
+const quotesHandler=require('./Modules/quotes');
 const server = express();
 server.use(cors());
-//app.use(express.json());
+server.use(express.json());
 
 const PORT = process.env.PORT;
+server.get('/quote',quotesHandler);
+
 
 //NOW TEST THE URL
 // http://localhost:3001/
@@ -26,3 +28,4 @@ server.get('*', (req, res) => {
 server.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`);
 })
+
