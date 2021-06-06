@@ -17,6 +17,34 @@ server.get('/', (request, response) => {
     let str = 'hello from back end';
     response.status(202).send(str);
 })
+
+
+
+//add new data books to MongoDB and render it in front end 
+function addBook(request,response){
+    console.log(request,'gr');
+    const { tag,text} = request.body;
+  
+    user.find({ email: email }, (error, ownerData) => {
+      if(error) {response.send('not Working')}
+      else{
+        console.log('before pushing',ownerData[0])
+  
+      ownerData[0].qoute.push({
+       
+          tag:tag,
+          text:text,
+      })
+      ownerData[0].save();
+      response.send(ownerData[0]);
+    }
+  });
+  
+  }
+
+server.get('/addQoute',(request, response)=>{
+
+})
 // if we search about something wrong 
 server.get('*', (req, res) => {
     res.status(404).send('not found');
@@ -26,3 +54,5 @@ server.get('*', (req, res) => {
 server.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`);
 })
+
+
