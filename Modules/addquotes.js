@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const MONGO = process.env.MONGO_URL;
 mongoose.connect('mongodb://DIY:00000@qoutilicious-shard-00-00.wzcyv.mongodb.net:27017,qoutilicious-shard-00-01.wzcyv.mongodb.net:27017,qoutilicious-shard-00-02.wzcyv.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-fnvudm-shard-0&authSource=admin&retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true });
@@ -49,7 +50,21 @@ user2.save();
 
 function addQuotesHandler(req, res) {
     //
-    console.log('hello from add');
+const {email ,author,txt,tag} = req.body;
+usersModel.find({email:email},(err,dataRes)=>{
+if(err)
+{res.send(err)}
+else{
+    dataRes[0].quote.push({
+        author: quote.author ,
+        txt: quote.txt,
+        tag: quote.tag     
+    })
 }
+detaRes[0].save();
+res.send(dataRes)
 
+    console.log('hello from add');
+})
+}
 module.exports = addQuotesHandler;
