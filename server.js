@@ -1,5 +1,5 @@
 'use strict';
-
+const addQuotesHandler=require('./Modules/addquotes');
 const express = require('express');
 const cors = require('cors');
 //const mongoose = require('mongoose');
@@ -11,7 +11,7 @@ server.use(express.json());
 
 const PORT = process.env.PORT;
 server.get('/quote',quotesHandler);
-
+server.get('/addquote',addQuotesHandler);
 
 //NOW TEST THE URL
 // http://localhost:3001/
