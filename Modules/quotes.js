@@ -12,6 +12,5 @@ function quotesHandler(req,res){
     res.send(data);
     }).catch(err=>{
         res.send(err);
-    })
-    
+    })   
 }
