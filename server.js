@@ -16,6 +16,8 @@ server.get('/quote',quotesHandler);
 server.get('/getquote',getQuotesHandler); 
 server.post('/addquote',addQuotesHandler);
 server.delete('/deleteqout/:index', deleteQuotes);
+server.put('/editquote/:index',updateQuotes);
+
 
 
 
