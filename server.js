@@ -12,7 +12,7 @@ server.use(cors());
 
 const PORT = process.env.PORT;
 server.get('/quote',quotesHandler);
-server.get('/getquote',getQuotesHandler);
+server.get('/getquote',getQuotesHandler); 
 server.post('/addquote',addQuotesHandler);
 
 //NOW TEST THE URL
