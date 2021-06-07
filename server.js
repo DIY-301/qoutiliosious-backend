@@ -5,13 +5,14 @@ const cors = require('cors');
 //const mongoose = require('mongoose');
 require('dotenv').config();
 const quotesHandler=require('./Modules/quotes');
+const getQuotesHandler=require('./Modules/getquotes');
 const server = express();
 server.use(express.json());
 server.use(cors());
 
 const PORT = process.env.PORT;
 server.get('/quote',quotesHandler);
-
+server.get('/getquote',getQuotesHandler);
 server.post('/addquote',addQuotesHandler);
 
 //NOW TEST THE URL
