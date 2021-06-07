@@ -12,9 +12,7 @@ const quoteSchema = new mongoose.Schema({
 
 const usersSchema = new mongoose.Schema({
     email: String,
-    quote: [
-        quoteSchema
-    ]
+    quote: [quoteSchema]
 });
 //const userModel = mongoose.model('user', userSchema);
 const usersModel = mongoose.model('user', usersSchema);
@@ -45,26 +43,34 @@ const user2= new usersModel ({
 user1.save();
 user2.save();
 }
-// seedUsersCollection();
+ //seedUsersCollection();
 
 
 function addQuotesHandler(req, res) {
     //
 const {email ,author,txt,tag} = req.body;
-usersModel.find({email:email},(err,dataRes)=>{
+console.log(email);
+
+usersModel.findOne({email:email},(err,dataRes)=>{
 if(err)
 {res.send(err)}
 else{
-    dataRes[0].quote.push({
-        author: quote.author ,
-        txt: quote.txt,
-        tag: quote.tag     
+    dataRes.quote.push({
+        author: author ,
+        txt: txt,
+        tag: tag     
     })
 }
-detaRes[0].save();
+detaRes.save();
 res.send(dataRes)
 
     console.log('hello from add');
 })
+
 }
+
+
+
+
+
 module.exports = addQuotesHandler;
