@@ -1,3 +1,4 @@
+'use strict';
 module.exports=quotesHandler;
 const axios= require('axios');
 function quotesHandler(req,res){
@@ -12,6 +13,5 @@ function quotesHandler(req,res){
     res.send(data);
     }).catch(err=>{
         res.send(err);
-    })
-    
+    })   
 }
