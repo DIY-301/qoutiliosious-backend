@@ -6,8 +6,8 @@ const cors = require('cors');
 require('dotenv').config();
 const quotesHandler=require('./Modules/quotes');
 const server = express();
-server.use(cors());
 server.use(express.json());
+server.use(cors());
 
 const PORT = process.env.PORT;
 server.get('/quote',quotesHandler);
@@ -15,7 +15,7 @@ server.get('/quote',quotesHandler);
 server.post('/addquote',addQuotesHandler);
 
 //NOW TEST THE URL
-// http://localhost:3001/
+// http://localhost:3003/
 server.get('/', (request, response) => {
     let str = 'hello from back end';
     response.status(202).send(str);
