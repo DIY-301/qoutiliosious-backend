@@ -1,3 +1,4 @@
+'use strict';
 const mongoose = require('mongoose');
 
 const MONGO = process.env.MONGO_URL;
@@ -21,48 +22,52 @@ const user = new usersModel;//seeding
 function seedUsersCollection(){
 const user1= new usersModel ({
     email: `leana_baba@yahoo.com`,
-    quote:[
-        {
-            author: 'Layana A. Baba',
-            txt: 'jjjjjjjjj',
-            tag:'Sad'
-        }
-    ]
+    quote:[ ]
 })
 
 const user2= new usersModel ({
     email: `nanawmistkeh@gmail.com`,
-    quote:[
-        {
-            author: 'Fadi Nayef',
-            txt: 'hjvjv',
-            tag:'ggfhgf'
-        }
-    ]
+    quote:[ ]
 })
-user1.save();
-user2.save();
+const user3= new usersModel ({
+    email: `lolo.baba2014@gmail.com`,
+    quote:[ ]
+})
+const user4= new usersModel ({
+    email: `vittosc1997@gmail.com`,
+    quote:[  ]
+})
+const user5= new usersModel ({
+    email: `rujeenaalzoud@gmail.com`,
+    quote:[  ]
+})
+const user6= new usersModel ({
+    email: `x.firashasan@gmail.com`,
+    quote:[  ]
+})
+
+user5.save();
+user6.save();
+
 }
  //seedUsersCollection();
 
 
 function addQuotesHandler(req, res) {
-    //
-const {email ,author,txt,tag} = req.body;
-console.log(email);
-
+    const {email,author,txt,tag} = req.body;
+    console.log(req.body);
 usersModel.findOne({email:email},(err,dataRes)=>{
 if(err)
 {res.send(err)}
 else{
     dataRes.quote.push({
-        author: author ,
+        author:author ,
         txt: txt,
-        tag: tag     
+        tag:tag
     })
 }
-detaRes.save();
-res.send(dataRes)
+dataRes.save();
+res.send(dataRes.quote)
 
     console.log('hello from add');
 })
