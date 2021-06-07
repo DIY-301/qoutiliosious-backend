@@ -6,6 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 const quotesHandler=require('./Modules/quotes');
 const getQuotesHandler=require('./Modules/getquotes');
+const deleteQuotes=require('./Modules/addquotes');
 const server = express();
 server.use(express.json());
 server.use(cors());
@@ -14,8 +15,7 @@ const PORT = process.env.PORT;
 server.get('/quote',quotesHandler);
 server.get('/getquote',getQuotesHandler);
 server.post('/addquote',addQuotesHandler);
-
-
+server.delete('/deleteqout/:index', deleteQuotes);
 
 
 

@@ -52,6 +52,36 @@ user6.save();
 }
  //seedUsersCollection();
 
+ function deleteQuotes(request, response) {
+ 
+    const index = Number(request.params.index);
+   
+    
+    const { email} = request.query;
+    console.log(request.query);
+    usersModel.findOne({email: email}, (err, qouteData) => {
+       console.log(qouteData); 
+  try {
+
+    const newArr = qouteData.quote.filter((quote, idx) => {
+      return idx !== index
+      console.log(newArr);
+  });
+  qouteData.quote = newArr;
+  qouteData.save();
+  console.log(qouteData.quote); 
+
+  response.send(qouteData.quote);
+  } catch (error) {
+    console.log(error);
+  }
+  if (err) {response.send(`YOU GOT AN ERROR! your error: ${err}`)};  
+  
+       
+    });
+  }
+
+
 
 function addQuotesHandler(req, res) {
     const {email,author,txt,tag} = req.body;
@@ -79,3 +109,5 @@ res.send(dataRes.quote)
 
 
 module.exports = addQuotesHandler;
+
+module.exports =deleteQuotes;
