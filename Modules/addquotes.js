@@ -13,9 +13,7 @@ const quoteSchema = new mongoose.Schema({
 
 const usersSchema = new mongoose.Schema({
     email: String,
-    quote: [
-        quoteSchema
-    ]
+    quote: [quoteSchema]
 });
 //const userModel = mongoose.model('user', userSchema);
 const usersModel = mongoose.model('user', usersSchema);
@@ -52,7 +50,37 @@ user5.save();
 user6.save();
 
 }
-// seedUsersCollection();
+ //seedUsersCollection();
+
+ function deleteQuotes(request, response) {
+ 
+    const index = Number(request.params.index);
+   
+    
+    const { email} = request.query;
+    console.log(request.query);
+    usersModel.findOne({email: email}, (err, qouteData) => {
+       console.log(qouteData); 
+  try {
+
+    const newArr = qouteData.quote.filter((quote, idx) => {
+      return idx !== index
+      console.log(newArr);
+  });
+  qouteData.quote = newArr;
+  qouteData.save();
+  console.log(qouteData.quote); 
+
+  response.send(qouteData.quote);
+  } catch (error) {
+    console.log(error);
+  }
+  if (err) {response.send(`YOU GOT AN ERROR! your error: ${err}`)};  
+  
+       
+    });
+  }
+
 
 
 function addQuotesHandler(req, res) {
@@ -73,5 +101,13 @@ res.send(dataRes.quote)
 
     console.log('hello from add');
 })
+
 }
+
+
+
+
+
 module.exports = addQuotesHandler;
+
+module.exports =deleteQuotes;
