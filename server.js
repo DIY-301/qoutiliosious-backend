@@ -1,22 +1,25 @@
 'use strict';
-const addQuotesHandler=require('./Modules/addquotes');
 const express = require('express');
 const cors = require('cors');
 //const mongoose = require('mongoose');
 require('dotenv').config();
-const quotesHandler=require('./Modules/quotes');
-const getQuotesHandler=require('./Modules/getquotes');
-const deleteQuotes=require('./Modules/addquotes');
+const getQuotesHandler = require('./Modules/getquotes');
+const addQuotesHandler=require('./Modules/addquotes');
+const quotesHandler = require('./Modules/quotes');
+const updateQuotes = require('./Modules/addquotes');
+const deleteQuotes  =require('./Modules/addquotes');
+
 const server = express();
+
 server.use(express.json());
 server.use(cors());
 
 const PORT = process.env.PORT;
-server.get('/quote',quotesHandler);
-server.get('/getquote',getQuotesHandler); 
+server.get('/quote', quotesHandler);
+server.get('/getquote', getQuotesHandler);
 server.post('/addquote',addQuotesHandler);
+server.put('/editquote/:index', updateQuotes);
 server.delete('/deleteqout/:index', deleteQuotes);
-server.put('/editquote/:index',updateQuotes);
 
 
 

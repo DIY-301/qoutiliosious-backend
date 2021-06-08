@@ -53,66 +53,7 @@ user6.save();
 }
  //seedUsersCollection();
 
-
-
-// firas مرق من هنا -----------------------------------------------------------------------------------------
-
-function updateQuotes (req,res)
-{
-    const index = Number(req.params.index);
-    const { email,author,txt,tag } = request.body //?email=alsdlasmdalsd@lsad;lsad.com
-    usersModel.findOne({email : email},(error,responseQuote)=>{
-        responseQuote.quote.splice(index,1,{
-            author: author,
-            txt:txt,
-            tag:tag
-        })
-        usersModel.quote.save();
-        
-    })
-}
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------------------
-
-
-
- function deleteQuotes(request, response) {
- 
-    const index = Number(request.params.index);
-   
-    
-    const { email } = request.query;//query parameters
-    console.log(request.query);
-    usersModel.findOne({email: email}, (err, qouteData) => {
-       console.log(qouteData); 
-  try {
-
-    const newArr = qouteData.quote.filter((quote, idx) => {
-      return idx !== index
-      console.log(newArr);
-  });
-  qouteData.quote = newArr;
-  qouteData.save();
-  console.log(qouteData.quote); 
-
-  response.send(qouteData.quote);
-  } catch (error) {
-    console.log(error);
-  }
-  if (err) {response.send(`YOU GOT AN ERROR! your error: ${err}`)};  
-  
-       
-    });
-  }
-
-
-function addQuotesHandler(req, res) {
+ function addQuotesHandler(req, res) {
     const {email,author,txt,tag} = req.body;
     console.log(req.body);
 usersModel.findOne({email:email},(err,dataRes)=>{
@@ -133,10 +74,71 @@ res.send(dataRes.quote)
 
 }
 
+// firas -----------------------------------------------------------------------------------------
+
+function updateQuotes (req,res)
+{
+    const index = Number(req.params.index);
+    const { email,author,txt,tag } = req.body //?email=alsdlasmdalsd@lsad;lsad.com
+    console.log(req.body);
+    
+    usersModel.findOne({email : email},(error,responseQuote)=>{
+        console.log(responseQuote);
+        responseQuote.quote.splice(index,1,{
+            author: author,
+            txt:txt,
+            tag:tag
+           
+        })
+        responseQuote.save();
+            
+    })
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------------------
+
+
+
+ function deleteQuotes(request, response) {
+ 
+    const index = Number(request.params.index);
+   
+    
+    const { email } = request.query;//query parameters
+    console.log(request.query);
+    usersModel.findOne({email: email}, (err, qouteData) => {
+       console.log(qouteData); 
+  try {
+
+    const newArr = qouteData.quote.filter((quote, index) => {
+      return index !== index
+      console.log(newArr);
+  });
+  qouteData.quote = newArr;
+  qouteData.save();
+  console.log(qouteData.quote); 
+
+  response.send(qouteData.quote);
+  } catch (error) {
+    console.log(error);
+  }
+  if (err) {response.send(`YOU GOT AN ERROR! your error: ${err}`)};  
+  
+       
+    });
+  }
+
+
+
+
 
 module.exports = addQuotesHandler;
+module.exports = updateQuotes;
 module.exports = deleteQuotes;
 
-module.exports = updateQuotes;
 
 //firas -------------------------------------------------------------------------------------------------
