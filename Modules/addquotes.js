@@ -1,25 +1,24 @@
 'use strict';
+const { text } = require('express');
 const mongoose = require('mongoose');
 
 const MONGO = process.env.MONGO_URL;
 mongoose.connect('mongodb://DIY:00000@qoutilicious-shard-00-00.wzcyv.mongodb.net:27017,qoutilicious-shard-00-01.wzcyv.mongodb.net:27017,qoutilicious-shard-00-02.wzcyv.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-fnvudm-shard-0&authSource=admin&retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true });
 
-const quoteSchema = new mongoose.Schema({
+const quoteSchema = new mongoose.Schema({//ta3reef schema
     author: String,
     txt: String,
     tag: String
 });
 
-const usersSchema = new mongoose.Schema({
+const usersSchema = new mongoose.Schema({ //collection
     email: String,
-    quote: [
-        quoteSchema
-    ]
+    quote: [quoteSchema]
 });
 //const userModel = mongoose.model('user', userSchema);
 const usersModel = mongoose.model('user', usersSchema);
-const user = new usersModel;//seeding
+
 
 function seedUsersCollection(){
 const user1= new usersModel ({
@@ -52,10 +51,9 @@ user5.save();
 user6.save();
 
 }
-// seedUsersCollection();
+ //seedUsersCollection();
 
-
-function addQuotesHandler(req, res) {
+ function addQuotesHandler(req, res) {
     const {email,author,txt,tag} = req.body;
     console.log(req.body);
 usersModel.findOne({email:email},(err,dataRes)=>{
@@ -73,5 +71,74 @@ res.send(dataRes.quote)
 
     console.log('hello from add');
 })
+
 }
+
+// firas -----------------------------------------------------------------------------------------
+
+function updateQuotes (req,res)
+{
+    const index = Number(req.params.index);
+    const { email,author,txt,tag } = req.body //?email=alsdlasmdalsd@lsad;lsad.com
+    console.log(req.body);
+    
+    usersModel.findOne({email : email},(error,responseQuote)=>{
+        console.log(responseQuote);
+        responseQuote.quote.splice(index,1,{
+            author: author,
+            txt:txt,
+            tag:tag
+           
+        })
+        responseQuote.save();
+            
+    })
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------------------
+
+
+
+ function deleteQuotes(request, response) {
+ 
+    const index = Number(request.params.index);
+   
+    
+    const { email } = request.query;//query parameters
+    console.log(request.query);
+    usersModel.findOne({email: email}, (err, qouteData) => {
+       console.log(qouteData); 
+  try {
+
+    const newArr = qouteData.quote.filter((quote, index) => {
+      return index !== index
+      console.log(newArr);
+  });
+  qouteData.quote = newArr;
+  qouteData.save();
+  console.log(qouteData.quote); 
+
+  response.send(qouteData.quote);
+  } catch (error) {
+    console.log(error);
+  }
+  if (err) {response.send(`YOU GOT AN ERROR! your error: ${err}`)};  
+  
+       
+    });
+  }
+
+
+
+
+
 module.exports = addQuotesHandler;
+module.exports = updateQuotes;
+module.exports = deleteQuotes;
+
+
+//firas -------------------------------------------------------------------------------------------------
