@@ -20,125 +20,94 @@ const usersSchema = new mongoose.Schema({ //collection
 const usersModel = mongoose.model('user', usersSchema);
 
 
-function seedUsersCollection(){
-const user1= new usersModel ({
-    email: `leana_baba@yahoo.com`,
-    quote:[ ]
-})
-
-const user2= new usersModel ({
-    email: `nanawmistkeh@gmail.com`,
-    quote:[ ]
-})
-const user3= new usersModel ({
-    email: `lolo.baba2014@gmail.com`,
-    quote:[ ]
-})
-const user4= new usersModel ({
-    email: `vittosc1997@gmail.com`,
-    quote:[  ]
-})
-const user5= new usersModel ({
-    email: `rujeenaalzoud@gmail.com`,
-    quote:[  ]
-})
-const user6= new usersModel ({
-    email: `x.firashasan@gmail.com`,
-    quote:[  ]
-})
-
-user5.save();
-user6.save();
-
-}
- //seedUsersCollection();
-
- function addQuotesHandler(req, res) {
-    const {email,author,txt,tag} = req.body;
-    console.log(req.body);
-usersModel.findOne({email:email},(err,dataRes)=>{
-if(err)
-{res.send(err)}
-else{
-    dataRes.quote.push({
-        author:author ,
-        txt: txt,
-        tag:tag
+function seedUsersCollection() {
+    const user1 = new usersModel({
+        email: `leana_baba@yahoo.com`,
+        quote: []
     })
+
+    const user2 = new usersModel({
+        email: `nanawmistkeh@gmail.com`,
+        quote: []
+    })
+    const user3 = new usersModel({
+        email: `lolo.baba2014@gmail.com`,
+        quote: []
+    })
+    const user4 = new usersModel({
+        email: `vittosc1997@gmail.com`,
+        quote: []
+    })
+    const user5 = new usersModel({
+        email: `rujeenaalzoud@gmail.com`,
+        quote: []
+    })
+    const user6 = new usersModel({
+        email: `x.firashasan@gmail.com`,
+        quote: []
+    })
+
+    user5.save();
+    user6.save();
+
 }
-dataRes.save();
-res.send(dataRes.quote)
+//seedUsersCollection();
+module.exports = { 
+    addQuotesHandler: function(req,res){
+    const { email, txt, author, tag } = req.body;
+    usersModel.findOne({ email: email }, (err, dataRes) => {
+        if (err) { res.send(err) }
+        else {
+            dataRes.quote.push({
+                author: author,
+                txt: txt,
+                tag: tag
+            })
+        }
+        dataRes.save();
+        res.send(dataRes.quote)
+        console.log('hello from add');
+    })
 
-    console.log('hello from add');
-})
-
-}
-
-// firas -----------------------------------------------------------------------------------------
-
-function updateQuotes (req,res)
-{
-    const index = Number(req.params.index);
-    const { email,author,txt,tag } = req.body //?email=alsdlasmdalsd@lsad;lsad.com
-    console.log(req.body);
+},
+     updateQuotes: function(req,res){
+        const index = Number(req.params.index);
+        const { email, author, txt, tag } = req.body //?email=alsdlasmdalsd@lsad;lsad.com
+        console.log(req.body);
     
-    usersModel.findOne({email : email},(error,responseQuote)=>{
-        console.log(responseQuote);
-        responseQuote.quote.splice(index,1,{
-            author: author,
-            txt:txt,
-            tag:tag
-           
+        usersModel.findOne({ email: email }, (error, responseQuote) => {
+            console.log(responseQuote);
+            responseQuote.quote.splice(index, 1, {
+                author: author,
+                txt: txt,
+                tag: tag
+    
+            })
+            responseQuote.save();
+            res.send(responseQuote.quote);
         })
-        responseQuote.save();
-            
-    })
-}
+     }, 
+     deleteQuotes: function(req,res){
+        const idx = Number(req.params.index);
+        const { email } = req.query;//query parameters
+        console.log(req.query);
+        usersModel.findOne({ email: email }, (err, qouteData) => {
+            console.log(qouteData);
+            try {
+                const newArr = qouteData.quote.filter((quote, index) => {
+                    return index !== idx
+                });
+                qouteData.quote = newArr;
+                qouteData.save();
+                console.log(qouteData.quote);
+                res.send(qouteData.quote);
+            } catch (error) {
+                console.log(error);
+            }
+            if (err) { res.send(`YOU GOT AN ERROR! your error: ${err}`) };
+        });
+     } };
 
-
-
-
-
-//-----------------------------------------------------------------------------------------
-
-
-
- function deleteQuotes(request, response) {
- 
-    const index = Number(request.params.index);
-   
-    
-    const { email } = request.query;//query parameters
-    console.log(request.query);
-    usersModel.findOne({email: email}, (err, qouteData) => {
-       console.log(qouteData); 
-  try {
-
-    const newArr = qouteData.quote.filter((quote, index) => {
-      return index !== index
-      console.log(newArr);
-  });
-  qouteData.quote = newArr;
-  qouteData.save();
-  console.log(qouteData.quote); 
-
-  response.send(qouteData.quote);
-  } catch (error) {
-    console.log(error);
-  }
-  if (err) {response.send(`YOU GOT AN ERROR! your error: ${err}`)};  
-  
-       
-    });
-  }
-
-
-
-
-
-module.exports = addQuotesHandler;
-module.exports = updateQuotes;
-module.exports = deleteQuotes;
 
 
 //firas -------------------------------------------------------------------------------------------------

@@ -4,10 +4,9 @@ const cors = require('cors');
 //const mongoose = require('mongoose');
 require('dotenv').config();
 const getQuotesHandler = require('./Modules/getquotes');
-const addQuotesHandler=require('./Modules/addquotes');
 const quotesHandler = require('./Modules/quotes');
-const updateQuotes = require('./Modules/addquotes');
-const deleteQuotes  =require('./Modules/addquotes');
+const {addQuotesHandler,updateQuotes,deleteQuotes}=require('./Modules/addquotes');
+
 
 const server = express();
 
@@ -15,10 +14,19 @@ server.use(express.json());
 server.use(cors());
 
 const PORT = process.env.PORT;
+
+server.listen(PORT, () => {
+    console.log(`listening on PORT ${PORT}`);
+})
+
+
+
+
+
+server.post('/addquote',addQuotesHandler);
 server.get('/quote', quotesHandler);
 server.get('/getquote', getQuotesHandler);
-server.post('/addquote',addQuotesHandler);
-server.put('/editquote/:index', updateQuotes);
+server.put('/updatequote/:index', updateQuotes);
 server.delete('/deleteqout/:index', deleteQuotes);
 
 
@@ -40,8 +48,5 @@ server.get('*', (req, res) => {
 
 
 // step 1 do listening 
-server.listen(PORT, () => {
-    console.log(`listening on PORT ${PORT}`);
-})
 
 
