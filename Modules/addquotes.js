@@ -1,8 +1,6 @@
 'use strict';
-const { text } = require('express');
 const mongoose = require('mongoose');
 
-const MONGO = process.env.MONGO_URL;
 mongoose.connect('mongodb://DIY:00000@qoutilicious-shard-00-00.wzcyv.mongodb.net:27017,qoutilicious-shard-00-01.wzcyv.mongodb.net:27017,qoutilicious-shard-00-02.wzcyv.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-fnvudm-shard-0&authSource=admin&retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true });
 
